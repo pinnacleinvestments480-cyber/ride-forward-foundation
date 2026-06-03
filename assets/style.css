@@ -193,7 +193,7 @@ section { padding-block: clamp(var(--space-16), 8vw, var(--space-32)); }
 /* ===== Full-bleed photo band ===== */
 .photo-band { position: relative; padding: 0; }
 .photo-band figure { position: relative; margin: 0; }
-.photo-band img { display: block; width: 100%; height: clamp(320px, 52vh, 560px); object-fit: cover; }
+.photo-band img { display: block; width: 100%; height: clamp(320px, 52vh, 560px); object-fit: cover; object-position: center 38%; }
 .photo-band figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: var(--space-12) var(--space-6) var(--space-6); color: #fff; background: linear-gradient(to top, rgba(8,14,28,0.82), rgba(8,14,28,0) 90%); }
 .photo-band figcaption .photo-band-eyebrow { display: inline-flex; font-family: var(--font-display); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: .72rem; color: var(--color-accent); margin-bottom: var(--space-2); }
 .photo-band figcaption p { max-width: 640px; font-size: var(--text-lg); font-weight: 500; margin: 0; color: #fff; }
