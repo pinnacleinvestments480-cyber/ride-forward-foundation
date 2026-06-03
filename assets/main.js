@@ -73,22 +73,20 @@ document.documentElement.classList.add('js');
       label: 'Continue to Secure Checkout',
       note: 'Choose a suggested gift above, then enter your exact amount on the secure Stripe checkout screen.',
       amounts: [
-        { amt: '$50',    desc: 'A jersey number plate',               link: ONE_TIME_LINK },
-        { amt: '$100',   desc: 'A season membership',                 link: ONE_TIME_LINK },
-        { amt: '$200',   desc: 'Local race fees',                     link: ONE_TIME_LINK },
-        { amt: '$500',   desc: 'Helmet & gear',                       link: ONE_TIME_LINK },
-        { amt: '$1,000', desc: 'A season of national race entry fees', link: ONE_TIME_LINK },
-        { amt: 'Other',  desc: 'You choose',                          link: ONE_TIME_LINK }
+        { amt: '$50',   desc: 'Helps cover a jersey number plate', link: ONE_TIME_LINK },
+        { amt: '$150',  desc: 'Helps fund a season membership',    link: ONE_TIME_LINK },
+        { amt: '$300',  desc: 'Helps with gear and race fees',     link: ONE_TIME_LINK },
+        { amt: 'Other', desc: 'You choose',                       link: ONE_TIME_LINK }
       ]
     },
     'monthly': {
       label: 'Continue to Secure Checkout',
       note: 'Choose a monthly amount above, then complete your gift on the secure Stripe checkout screen.',
       amounts: [
-        { amt: '$10',  desc: 'Supporter \u2014 fund a rider all year',  link: 'https://buy.stripe.com/cNi6oIcY48Beef65YB7Re07' },
-        { amt: '$25',  desc: "Rider's Circle \u2014 stories & reports", link: 'https://buy.stripe.com/4gM6oI7DKbNqgne9aN7Re0b' },
-        { amt: '$50',  desc: "Mentor's Circle \u2014 event invites",    link: 'https://buy.stripe.com/4gMcN63nu8Be2wo72F7Re0c' },
-        { amt: '$100', desc: "Champion's Circle \u2014 top tier",       link: 'https://buy.stripe.com/aFabJ2f6cbNqfjaaeR7Re0a' }
+        { amt: '$10',  desc: "Helps cover a rider's race entry fees",   link: 'https://buy.stripe.com/cNi6oIcY48Beef65YB7Re07' },
+        { amt: '$25',  desc: 'Helps with gear and equipment costs',     link: 'https://buy.stripe.com/4gM6oI7DKbNqgne9aN7Re0b' },
+        { amt: '$50',  desc: "Helps fund a rider's season membership",  link: 'https://buy.stripe.com/4gMcN63nu8Be2wo72F7Re0c' },
+        { amt: '$100', desc: 'Helps put a rider through a full season',  link: 'https://buy.stripe.com/aFabJ2f6cbNqfjaaeR7Re0a' }
       ]
     }
   };
