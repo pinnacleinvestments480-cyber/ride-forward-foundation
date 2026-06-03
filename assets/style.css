@@ -327,3 +327,22 @@ section { padding-block: clamp(var(--space-16), 8vw, var(--space-32)); }
   .footer-top { grid-template-columns: 1fr; }
   .nav-actions .btn { display: none; }
 }
+
+/* ===== Highlight video feature ===== */
+.video-frame {
+  max-width: 960px;
+  margin-inline: auto;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.08);
+  line-height: 0;
+}
+.video-frame video {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
