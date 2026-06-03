@@ -70,8 +70,8 @@ document.documentElement.classList.add('js');
 
   const PLANS = {
     'one-time': {
-      label: 'Donate Now',
-      note: 'You can enter or confirm your exact amount securely on the next screen.',
+      label: 'Continue to Secure Checkout',
+      note: 'Choose a suggested gift above, then enter your exact amount on the secure Stripe checkout screen.',
       amounts: [
         { amt: '$50',    desc: 'A jersey number plate',               link: ONE_TIME_LINK },
         { amt: '$100',   desc: 'A season membership',                 link: ONE_TIME_LINK },
@@ -82,8 +82,8 @@ document.documentElement.classList.add('js');
       ]
     },
     'monthly': {
-      label: 'Become a Monthly Member',
-      note: 'Your monthly membership starts on the next screen — cancel anytime.',
+      label: 'Continue to Secure Checkout',
+      note: 'Choose a monthly amount above, then complete your gift on the secure Stripe checkout screen.',
       amounts: [
         { amt: '$10',  desc: 'Supporter \u2014 fund a rider all year',  link: 'https://buy.stripe.com/cNi6oIcY48Beef65YB7Re07' },
         { amt: '$25',  desc: "Rider's Circle \u2014 stories & reports", link: 'https://buy.stripe.com/4gM6oI7DKbNqgne9aN7Re0b' },
@@ -96,8 +96,15 @@ document.documentElement.classList.add('js');
   // Default selected index per mode (start on the 2nd card, like the original).
   const DEFAULT_INDEX = { 'one-time': 1, 'monthly': 1 };
 
+  const hint = document.querySelector('[data-amount-hint]');
+  const HINTS = {
+    'one-time': 'Pick a suggested gift — you\u2019ll enter your exact amount on the next screen.',
+    'monthly': 'Choose a monthly amount to support a rider all season long.'
+  };
+
   function render(mode) {
     const plan = PLANS[mode];
+    if (hint) hint.textContent = HINTS[mode];
     grid.innerHTML = '';
     plan.amounts.forEach((item, i) => {
       const card = document.createElement('div');
