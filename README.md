@@ -38,9 +38,9 @@ grep -rl RFF_DONATE_LINK . | xargs sed -i 's#RFF_DONATE_LINK#https://YOUR-DONATE
 ```
 
 ## Other placeholders to update
-- **Email:** `hello@rideforwardfoundation.org` (Sponsor + Contact pages) → your real address.
+- **Email:** `kimmay480@gmail.com` (Sponsor + Contact pages) → your real address.
 - **Fundraising progress:** `$18,400` / `37%` in `index.html` and `donate.html` (search `data-pct`).
-- **Location:** Surfside Beach, SC on the Contact page.
+- **Location:** Belmont, NC on the Contact page.
 
 ## Local preview
 Open `index.html` in a browser, or run:
