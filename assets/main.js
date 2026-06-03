@@ -57,16 +57,75 @@ document.documentElement.classList.add('js');
   io.observe(fill);
 })();
 
-// Donate amount selection + one-time/monthly toggle
+// Donate amount selection + one-time/monthly toggle (smart routing to Stripe)
 (function () {
-  const amounts = document.querySelectorAll('[data-amount]');
-  amounts.forEach(a => a.addEventListener('click', () => {
-    amounts.forEach(x => x.classList.remove('selected'));
-    a.classList.add('selected');
-  }));
+  const grid = document.querySelector('[data-amount-grid]');
   const toggles = document.querySelectorAll('[data-give-toggle] button');
+  const donateLink = document.querySelector('[data-donate-link]');
+  const note = document.querySelector('[data-give-note]');
+  if (!grid || !toggles.length || !donateLink) return;
+
+  // One-time: a single Stripe link where the donor enters/confirms any amount.
+  const ONE_TIME_LINK = 'https://buy.stripe.com/aFa8wQ1fm9Fib2U5YB7Re06';
+
+  const PLANS = {
+    'one-time': {
+      label: 'Donate Now',
+      note: 'You can enter or confirm your exact amount securely on the next screen.',
+      amounts: [
+        { amt: '$50',    desc: 'A jersey number plate',               link: ONE_TIME_LINK },
+        { amt: '$100',   desc: 'A season membership',                 link: ONE_TIME_LINK },
+        { amt: '$200',   desc: 'Local race fees',                     link: ONE_TIME_LINK },
+        { amt: '$500',   desc: 'Helmet & gear',                       link: ONE_TIME_LINK },
+        { amt: '$1,000', desc: 'A season of national race entry fees', link: ONE_TIME_LINK },
+        { amt: 'Other',  desc: 'You choose',                          link: ONE_TIME_LINK }
+      ]
+    },
+    'monthly': {
+      label: 'Become a Monthly Member',
+      note: 'Your monthly membership starts on the next screen — cancel anytime.',
+      amounts: [
+        { amt: '$10',  desc: 'Supporter \u2014 fund a rider all year',  link: 'https://buy.stripe.com/cNi6oIcY48Beef65YB7Re07' },
+        { amt: '$25',  desc: "Rider's Circle \u2014 stories & reports", link: 'https://buy.stripe.com/4gM6oI7DKbNqgne9aN7Re0b' },
+        { amt: '$50',  desc: "Mentor's Circle \u2014 event invites",    link: 'https://buy.stripe.com/4gMcN63nu8Be2wo72F7Re0c' },
+        { amt: '$100', desc: "Champion's Circle \u2014 top tier",       link: 'https://buy.stripe.com/aFabJ2f6cbNqfjaaeR7Re0a' }
+      ]
+    }
+  };
+
+  // Default selected index per mode (start on the 2nd card, like the original).
+  const DEFAULT_INDEX = { 'one-time': 1, 'monthly': 1 };
+
+  function render(mode) {
+    const plan = PLANS[mode];
+    grid.innerHTML = '';
+    plan.amounts.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'amount' + (i === DEFAULT_INDEX[mode] ? ' selected' : '');
+      card.setAttribute('data-amount', '');
+      card.setAttribute('data-link', item.link);
+      card.innerHTML = '<div class="amt">' + item.amt + '</div><div class="desc">' + item.desc + '</div>';
+      card.addEventListener('click', () => {
+        grid.querySelectorAll('[data-amount]').forEach(x => x.classList.remove('selected'));
+        card.classList.add('selected');
+        donateLink.setAttribute('href', card.getAttribute('data-link'));
+      });
+      grid.appendChild(card);
+    });
+    // Point the button at the default selected card's link + update label/note.
+    donateLink.setAttribute('href', plan.amounts[DEFAULT_INDEX[mode]].link);
+    donateLink.textContent = plan.label;
+    if (note) note.textContent = plan.note;
+  }
+
   toggles.forEach(b => b.addEventListener('click', () => {
     toggles.forEach(x => x.classList.remove('active'));
     b.classList.add('active');
+    const mode = /month/i.test(b.textContent) ? 'monthly' : 'one-time';
+    render(mode);
   }));
+
+  // Initial render based on whichever toggle starts active.
+  const startActive = document.querySelector('[data-give-toggle] button.active');
+  render(startActive && /month/i.test(startActive.textContent) ? 'monthly' : 'one-time');
 })();
