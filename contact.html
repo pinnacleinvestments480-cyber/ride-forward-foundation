@@ -58,7 +58,11 @@
     <div class="contact-grid">
       <!-- FORM -->
       <div class="reveal">
-        <form action="mailto:kimmay480@gmail.com" method="post" enctype="text/plain">
+        <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="a4ea40e7-d56a-41a1-bbf8-e98192a9e9b4">
+          <input type="hidden" name="from_name" value="Ride Forward Foundation Website">
+          <input type="hidden" name="subject" value="New contact form submission — Ride Forward Foundation">
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off">
           <div class="field">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" placeholder="Your full name" required>
@@ -68,8 +72,8 @@
             <input type="email" id="email" name="email" placeholder="you@example.com" required>
           </div>
           <div class="field">
-            <label for="subject">I'm reaching out about…</label>
-            <select id="subject" name="subject">
+            <label for="topic">I'm reaching out about…</label>
+            <select id="topic" name="reaching_out_about">
               <option>Sponsorship</option>
               <option>Rider Application</option>
               <option>Volunteering</option>
@@ -81,6 +85,7 @@
             <textarea id="message" name="message" rows="5" placeholder="Tell us how we can help…" required></textarea>
           </div>
           <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Send Message</button>
+          <p id="form-result" style="margin-top:var(--space-4);font-size:var(--text-sm);display:none"></p>
         </form>
       </div>
 
@@ -154,5 +159,47 @@
 </footer>
 
 <script src="assets/main.js"></script>
+<script>
+// Contact form submission via Web3Forms (AJAX — visitor stays on the page)
+(function () {
+  var form = document.getElementById('contact-form');
+  if (!form) return;
+  var result = document.getElementById('form-result');
+  var btn = form.querySelector('button[type="submit"]');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    var original = btn.textContent;
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+    result.style.display = 'none';
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: data
+    }).then(function (res) { return res.json(); })
+      .then(function (json) {
+        if (json.success) {
+          result.style.color = 'var(--color-primary)';
+          result.textContent = 'Thank you! Your message has been sent — we\'ll be in touch soon.';
+          form.reset();
+        } else {
+          result.style.color = '#c0392b';
+          result.textContent = 'Something went wrong. Please email us directly at kimmay480@gmail.com.';
+        }
+        result.style.display = 'block';
+      })
+      .catch(function () {
+        result.style.color = '#c0392b';
+        result.textContent = 'Something went wrong. Please email us directly at kimmay480@gmail.com.';
+        result.style.display = 'block';
+      })
+      .finally(function () {
+        btn.textContent = original;
+        btn.disabled = false;
+      });
+  });
+})();
+</script>
 </body>
 </html>
